@@ -3,7 +3,7 @@
 # Imports
 import numpy as np
 
-def compute_tangents_circle(circle_center: np.array, circle_radius: float, point: np.array, extension_length: float = 1000) -> list:
+def compute_tangents_circle(circle_center: np.array, circle_radius: float, point: np.array, extension_length: float = 100) -> list:
     """
     Compute the tangent points from a given point to a circle and extend the tangent lines.
     
@@ -12,7 +12,7 @@ def compute_tangents_circle(circle_center: np.array, circle_radius: float, point
         circle_center (np.array): The center of the circle as a numpy array [x, y].
         circle_radius (float): The radius of the circle.
         point (np.array): The point from which tangents are drawn as a numpy array [x, y].
-        extension_length (float, optional): The length to which the tangent lines are extended. Default is 1000.
+        extension_length (float, optional): The length to which the tangent lines are extended. Default is 100.
     
     Returns:
     --------

@@ -51,8 +51,8 @@ class Obstacle:
 
 if __name__ == "__main__":
     fig, ax = plt.subplots()
-    obj1 = Obstacle([0, 0], "circle", 5, "green")
-    obj1.draw(ax)
+    obstacle = Obstacle([0, 0], "circle", 5, "green")
+    obstacle.draw(ax)
     ax.set_xlim(-15, 15)
     ax.set_ylim(-15, 15)
     plt.gca().set_aspect("equal", adjustable="box")
