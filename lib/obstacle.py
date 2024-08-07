@@ -32,7 +32,7 @@ class Obstacle:
         str
             the string representation of the Obstacle
         """
-        return f"Obstacle {self.ID}: center={self.center}, shape={self.shape}, color={self.color}"
+        return f"Obstacle: center={self.center}, shape={self.shape}, color={self.color}"
 
     def draw(self, ax) -> None:
         if self.shape == "circle":

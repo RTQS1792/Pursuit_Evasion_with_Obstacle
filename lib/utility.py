@@ -152,8 +152,8 @@ def shortest_path_with_circle(circle_center: np.array, circle_radius: float, poi
     tangents2 = compute_tangents_circle(circle_center, circle_radius, point2)
     
     # Extract tangent points
-    t1a, t1b = tangents1[0], tangents1[1]
-    t2a, t2b = tangents2[0], tangents2[1]
+    t1a, t1b = np.array(tangents1[0]), np.array(tangents1[1])
+    t2a, t2b = np.array(tangents2[0]), np.array(tangents2[1])
     
     # Calculate distances and paths for all possible combinations of tangent points
     paths = [
