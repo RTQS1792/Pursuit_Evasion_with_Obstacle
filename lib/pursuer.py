@@ -1,10 +1,12 @@
+### Standard library imports ###
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
-from obstacle import Obstacle
-from utility import *
 from shapely.geometry import Polygon
 
+### Self defined imports ###
+from obstacle import Obstacle
+from utility import *
 
 class Pursuer:
     def __init__(self, position: list = [0, 0], speed: float = 0.1, board_size: int = 15, 
@@ -12,15 +14,19 @@ class Pursuer:
         """
         Constructor for the Pursuer class
 
-        Args:
-        -----
-        position (list): Initial position of the Pursuer. Default is [0, 0].
-        speed (float): Speed of the Pursuer. Default is 0.1.
-        board_size (int): Size of the game board. Default is 15.
-        obstacle (Obstacle): Obstacle object. Default is a green circle at [0, 0] with radius 5.
+        Parameters
+        ----------
+        position : list, optional
+            Initial position of the Pursuer, by default [0, 0]
+        speed : float, optional
+            Speed of the Pursuer, by default 0.1
+        board_size : int, optional
+            Size of the game board, by default 15
+        obstacle : Obstacle, optional
+            Obstacle object, by default a green circle at [0, 0] with radius 5
 
-        Returns:
-        --------
+        Returns
+        -------
         None
         """
         self.position = np.array(position, dtype=float)
@@ -40,9 +46,10 @@ class Pursuer:
         """
         Returns a string representation of the Pursuer
 
-        Returns:
-        --------
-        str: String representation of the Pursuer
+        Returns
+        -------
+        str
+            String representation of the Pursuer
         """
         return f"Pursuer at {self.position} with speed {self.speed}"
 
@@ -50,14 +57,17 @@ class Pursuer:
         """
         Draw the Pursuer on the given axis
 
-        Args:
-        -----
-        ax (matplotlib.axes.Axes): The axis to draw on
-        draw_vision (bool): Whether to draw the Pursuer's vision. Default is False.
-        draw_trajectory (bool): Whether to draw the Pursuer's trajectory. Default is False.
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes
+            The axis to draw on
+        draw_vision : bool, optional
+            Whether to draw the Pursuer's vision, by default False
+        draw_trajectory : bool, optional
+            Whether to draw the Pursuer's trajectory, by default False
 
-        Returns:
-        --------
+        Returns
+        -------
         None
         """
         # Draw Pursuer
@@ -83,12 +93,13 @@ class Pursuer:
         """
         Draw the Pursuer's vision on the given axis
 
-        Args:
-        -----
-        ax (matplotlib.axes.Axes): The axis to draw on
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes
+            The axis to draw on
 
-        Returns:
-        --------
+        Returns
+        -------
         None
         """
         # Define the corners of the game board

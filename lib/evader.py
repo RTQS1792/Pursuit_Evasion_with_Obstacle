@@ -13,15 +13,19 @@ class Evader:
         """
         Constructor for the Evader class
 
-        Args:
-        -----
-        position (list): Initial position of the Evader. Default is [0, 0].
-        speed (float): Speed of the Evader. Default is 0.1.
-        board_size (int): Size of the game board. Default is 15.
-        obstacle (Obstacle): Obstacle object. Default is a green circle at [0, 0] with radius 5.
+        Parameters
+        ----------
+        position : list, optional
+            Initial position of the Evader, by default [0, 0]
+        speed : float, optional
+            Speed of the Evader, by default 0.1
+        board_size : int, optional
+            Size of the game board, by default 15
+        obstacle : Obstacle, optional
+            Obstacle object, by default a green circle at [0, 0] with radius 5
 
-        Returns:
-        --------
+        Returns
+        -------
         None
         """
         self.position = np.array(position, dtype=float)
@@ -41,9 +45,10 @@ class Evader:
         """
         Returns a string representation of the Evader
 
-        Returns:
-        --------
-        str: String representation of the Evader
+        Returns
+        -------
+        str
+            String representation of the Evader
         """
         return f'Evader at {self.position} with speed {self.speed}'
     
@@ -51,12 +56,13 @@ class Evader:
         """
         Draw the Evader on the given axis
 
-        Args:
-        -----
-        ax (matplotlib.axes.Axes): The axis to draw on
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes
+            The axis to draw on
 
-        Returns:
-        --------
+        Returns
+        -------
         None
         """
         self.patch = patches.RegularPolygon(

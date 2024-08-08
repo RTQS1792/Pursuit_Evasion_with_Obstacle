@@ -3,7 +3,7 @@ import matplotlib.patches as patches
 
 
 class Obstacle:
-    def __init__(self, center: list = [0, 0], shape: str = "circle", radius: float = 5, color: str = "green") -> None:
+    def __init__(self, center: list = [0, 0], radius: float = 5, shape: str = "circle", color: str = "green") -> None:
         """
         This is the constructor for the Obstacle class
 
