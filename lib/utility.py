@@ -2,8 +2,9 @@
 
 # Imports
 import numpy as np
+import math
 
-def compute_tangents_circle(circle_center: np.array, circle_radius: float, point: np.array, extension_length: float = 100) -> list:
+def compute_tangents_circle(circle_center: np.array, circle_radius: float, point: np.array, extension_length: float = 1000) -> list:
     """
     Compute the tangent points from a given point to a circle and extend the tangent lines.
     
@@ -197,3 +198,28 @@ def arc_length(center: np.array, radius: float, point1: np.array, point2: np.arr
     
     # Return the length of the shorter arc
     return radius * min(angle, 2*np.pi - angle)
+
+def calculate_angle(point: np.array, source: np.array) -> float:
+    """
+    Calculate the angle of a line with respect to point p1.
+
+    Parameters
+    ----------
+    point : 
+        The target point.
+    p1 : 
+        The reference point.
+
+    Returns
+    -------
+    angle : float
+        The angle in radians.
+    """
+    vector = (point[0] - source[0], point[1] - source[1])
+    angle = math.atan2(vector[1], vector[0])
+    
+    # Normalize angle to [0, 2*pi]
+    if angle < 0:
+        angle += 2 * math.pi
+
+    return angle

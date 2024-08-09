@@ -94,6 +94,7 @@ class GameBoard:
         
         # Draw pursuer's trajectory
         pursuer_trajectory = np.array(self.pursuer.trajectory)
+        print(pursuer_trajectory)
         self.ax.plot(pursuer_trajectory[:, 0], pursuer_trajectory[:, 1], color=self.pursuer.color, linestyle='--', linewidth=1)
 
         # Draw evader's trajectory

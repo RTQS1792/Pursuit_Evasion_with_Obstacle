@@ -5,11 +5,11 @@ import numpy as np
 
 ### Self defined imports ###
 from obstacle import Obstacle
-from utility import compute_tangents_circle
+from utility import *
 
 class Evader:
     def __init__(self, position: list = [0, 0], speed: float = 0.1, board_size: int = 15, 
-                 obstacle: Obstacle = Obstacle([0, 0], "circle", 5, "green")) -> None:
+                 obstacle: Obstacle = Obstacle([0, 0], 5, "circle", "green")) -> None:
         """
         Constructor for the Evader class
 
@@ -36,22 +36,87 @@ class Evader:
         self.trajectory = [self.position.copy()]
         self.obstacle = obstacle
 
-        # Compute tangent points and lines
-        tangents = compute_tangents_circle(self.obstacle.center, self.obstacle.radius, self.position)
-        self.tangent_points = tangents[:2]
-        self.tangent_lines = tangents[2:]
-    
-    def __str__(self) -> str:
+    def move(self, pursuer_position: np.array) -> None:
         """
-        Returns a string representation of the Evader
+        Move the Evader based on the visibility of the pursuer
+
+        Parameters
+        ----------
+        pursuer_position : np.array
+            The position of the pursuer
 
         Returns
         -------
-        str
-            String representation of the Evader
+        None
         """
-        return f'Evader at {self.position} with speed {self.speed}'
-    
+        # Check if there's line of sight between evader and pursuer
+        line_of_sight = not does_line_intersect_circle(
+            self.position, pursuer_position, 
+            self.obstacle.center, self.obstacle.radius
+        )
+
+        if line_of_sight:
+            # If there's line of sight, move away from the pursuer
+            self.move_opposite_direction(pursuer_position)
+        else:
+            # If there's no line of sight, move along the tangent line
+            self.move_along_tangent(pursuer_position)
+
+    def move_opposite_direction(self, pursuer_position: np.array) -> None:
+        """
+        Move the Evader in the opposite direction of the pursuer
+
+        Parameters
+        ----------
+        pursuer_position : np.array
+            The position of the pursuer
+
+        Returns
+        -------
+        None
+        """
+        direction = self.position - pursuer_position
+        new_position = self.position + self.speed * direction / np.linalg.norm(direction)
+        
+        # Check if the new position is within the board boundaries
+        if np.all(np.abs(new_position) <= self.board_size):
+            self.position = new_position
+        
+        self.trajectory.append(self.position.copy())
+
+    def move_along_tangent(self, pursuer_position: np.array) -> None:
+        """
+        Move the Evader along the tangent line away from the pursuer
+
+        Parameters
+        ----------
+        pursuer_position : np.array
+            The position of the pursuer
+
+        Returns
+        -------
+        None
+        """
+        # Compute tangent points and lines
+        tangents = compute_tangents_circle(self.obstacle.center, self.obstacle.radius, self.position)
+        tangent_points = tangents[:2]
+        
+        # Determine which tangent point is further from the pursuer
+        distances = [np.linalg.norm(np.array(point) - pursuer_position) for point in tangent_points]
+        further_tangent = tangent_points[np.argmax(distances)]
+        
+        # Calculate direction vector along the tangent line
+        direction = np.array(further_tangent) - self.position
+        
+        # Move along the tangent line
+        new_position = self.position + self.speed * direction / np.linalg.norm(direction)
+        
+        # Check if the new position is within the board boundaries
+        if np.all(np.abs(new_position) <= self.board_size):
+            self.position = new_position
+        
+        self.trajectory.append(self.position.copy())
+
     def draw(self, ax) -> None:
         """
         Draw the Evader on the given axis
@@ -66,7 +131,7 @@ class Evader:
         None
         """
         self.patch = patches.RegularPolygon(
-            self.trajectory[0],  # position
+            self.position,  # Use current position
             numVertices=3,
             radius=0.5,  # size of the triangle
             orientation=np.pi / 2,  # point facing up
@@ -77,22 +142,13 @@ class Evader:
         )
         ax.add_patch(self.patch)
 
-if __name__ == "__main__":
-    # Create figure and axis
-    fig, ax = plt.subplots()
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the Evader
 
-    # Create obstacle and evader
-    obstacle = Obstacle([0, 0], "circle", 5, "green")
-    evader = Evader([0, 10], 0.1, obstacle=obstacle)
-
-    # Draw evader and obstacle
-    evader.draw(ax)
-    obstacle.draw(ax)
-
-    # Set plot limits and aspect ratio
-    ax.set_xlim(-15, 15)
-    ax.set_ylim(-15, 15)
-    plt.gca().set_aspect("equal", adjustable="box")
-
-    # Show the plot
-    plt.show()
+        Returns
+        -------
+        str
+            String representation of the Evader
+        """
+        return f'Evader at {self.position} with speed {self.speed}'
